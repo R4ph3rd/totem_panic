@@ -25,8 +25,8 @@ Servo totems[3] ;
 uint16_t ritualDuration = 120000 ;// 2min de jeu
 uint32_t startGame = 0 ;
 double inactive = 0 ;
-uint8_t inactiveDuration = 3000 ;
-boolean looseToConfirm = false ;
+uint8_t inactiveDuration = 1000 ;
+boolean looseToConfirm = true ;
 double looseTimeToConfirm = 0 ;
 
 // uint8_t score = 0 ;
@@ -34,10 +34,14 @@ boolean isGaming = false ;
 
 // totem motors = tm
 double tm_storage = 0 ;
+uint16_t rotation_timestamp = 1000 ;
 double delayMotors = 0 ;
+boolean rotationDelay = false ;
 uint16_t tm_timestamp = 2000 ;
 boolean totemRotation = true ;
 uint8_t tm_angle = 50 ;
+
+uint8_t maxUltrason = 43 ; // don't know why this value change sometimes between ~ 40 & 150
 
 DFRobotVL53L0X sensor;
 
@@ -67,9 +71,8 @@ void loop() {
 
   if ( isGaming ) {
     Serial.println(sensor.getDistance());
-    if ( (sensor.getDistance() > 299) && (millis() > startGame + 10000)) { // soul ball out : wait 10 sec after the game started to avoid wrong manipulations at the beginning
-      Serial.print("ball out : ");
-      Serial.println(sensor.getDistance());
+    if ( (sensor.getDistance() > 299) && (millis() > startGame + 5000)) { // soul ball out : wait 10 sec after the game started to avoid wrong manipulations at the beginning
+      Serial.println("ball out ");
 
       // to avoid sensor fluctuations : be sure that ball is out by expecting 2 sec
       if (!looseToConfirm) { // set timestamp which will confirm the loose
@@ -106,7 +109,7 @@ void loop() {
         }
 
       } else {   // normal behavior when a hand ( or object ) is in the range
-        uint8_t sigma = int(map(range, 0, 40, 110, 255));
+        uint8_t sigma = int(map(range, 0, maxUltrason, 110, 255));
         // Serial.print("sigma : ");
         // Serial.println(sigma);
         analogWrite(airPowerPIN, sigma);
@@ -116,10 +119,16 @@ void loop() {
       ////////// TOTEM MOTORS ROTATION ///////////////
       if (millis() > startGame + 3000) {
         if ( isTimeToAct(tm_storage, tm_timestamp) ) {
+          
+          if (!rotationDelay){ // set base timestamp to create delay between motors
+            delayMotors = millis();
+            rotationDelay = !rotationDelay ;   
+          }
+          
           if (totemRotation) {
-            moveTotemMotors_right();
-          } else {
             moveTotemMotors_left();
+          } else {
+            moveTotemMotors_right();
           }
         }
       }
@@ -166,8 +175,15 @@ void looseGame() {
   Serial.println("You are such a looser ... be shamed");
 
   analogWrite(airPowerPIN, 0);
-  isGaming = false ;
   looseToConfirm = false ;
+  
+  // wait for player remove his hand
+  while (handInRange()){
+    Serial.println("please remove your hand, looser");
+  }
+  
+  isGaming = false ;
+  Serial.println("game reset");
 }
 
 void wonGame() {
@@ -178,9 +194,18 @@ void wonGame() {
   analogWrite(airPowerPIN, 0);
 
   Serial.println("GAME WON !! ");
+  Serial.println(" you are now the Great Black Hawk, the greatest Native Shaman on Earth");
 
   soulIsInParadize();
+
+  // wait for player remove his hand
+  while (handInRange()){
+   Serial.println("please remove your hand, oh Great Black Hawk");
+  }
+  
   isGaming = false ;
+  Serial.println("game reset");
+
 }
 
 
@@ -190,15 +215,17 @@ void moveTotemMotors_right() {
     Serial.println("totem 1 motor moved to right");
   }
 
-  if (isTimeToAct(delayMotors, 2000) ) {
+  if (isTimeToAct(delayMotors, 1000) ) {
     t2.write(0);
     Serial.println("totem 2 motor moved to right");
   }
 
-  if (isTimeToAct(delayMotors, 3000)) {
+  if (isTimeToAct(delayMotors, 2000)) {
     t3.write(0);
     Serial.println("totem 3 motor moved to right");
+    
     totemRotation = !totemRotation ;
+    rotationDelay = !rotationDelay ;
     tm_storage = millis();
   }
 }
@@ -209,24 +236,33 @@ void moveTotemMotors_left() {
     Serial.println("totem 1 motor moved to left");
   }
 
-  if (isTimeToAct(delayMotors, 2000) ) {
+  if (isTimeToAct(delayMotors, 1000) ) {
     t2.write(tm_angle);
     Serial.println("totem 2 motor moved to left");
   }
 
-  if (isTimeToAct(delayMotors, 3000)) {
+  if (isTimeToAct(delayMotors, 2000)) {
     t3.write(tm_angle);
     Serial.println("totem 3 motor moved to left");
+    
     totemRotation = !totemRotation ;
+    rotationDelay = !rotationDelay ;
     tm_storage = millis();
   }
 }
 
 
 boolean isTimeToAct(double timeStorage, uint16_t timestamp) {
-  return millis() > timeStorage + timestamp;
+  Serial.print("timestorage") ; Serial.println(timeStorage);
+  return (millis() > int(timeStorage + timestamp));
 }
 
 boolean isGameWon(uint8_t score) {
   return score == 0 ;
+}
+
+boolean handInRange(){
+  int8_t range = ultrasonic.MeasureInCentimeters();
+
+  return range < maxUltrason - 5 ;
 }
