@@ -2,5 +2,6 @@
 <br>
 <img width="800" src="/src/img/title.png" alt="totem-panic">
 <br>
+<img width="800" src="/src/img/buildw.png" alt="built">
 <br>
 </div>
