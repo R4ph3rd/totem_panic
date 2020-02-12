@@ -4,4 +4,7 @@
 <br>
 <img width="800" src="/src/img/buildw.png" alt="built">
 <br>
+<img width="800" src="/src/img/status.png" alt="status">
+<br>
 </div>
+
