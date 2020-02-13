@@ -15,7 +15,9 @@ You will find below instructions to reproduce this game.
 
 Made by [Théo Geiller](theogeiller.com) and [Raphaël Perraud](raphaelperraud.com)
 
+<div align="center">
 ![totem panic gif](./src/img/totem_panic.gif)
+</div>
 
 ## Gameplay
 Natives are processing a ritual in order that their departed will be able to go to the Nirvana, but the totem gone crazy! Will you achieve to help them and stay on air until the end of the ritual?
