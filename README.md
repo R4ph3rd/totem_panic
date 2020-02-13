@@ -15,6 +15,8 @@ You will find below instructions to reproduce this game.
 
 Made by [Théo Geiller](theogeiller.com) and [Raphaël Perraud](raphaelperraud.com)
 
+![totem panic gif](./src/img/totem_panic.gif)
+
 ## Gameplay
 Natives are processing a ritual in order that their departed will be able to go to the Nirvana, but the totem gone crazy! Will you achieve to help them and stay on air until the end of the ritual?
 According to the duration the player keeps the soul ball on air, and he will get a shaman rank, from "élan tranquille" to "aigle noir". 
