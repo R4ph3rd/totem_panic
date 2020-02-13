@@ -71,7 +71,7 @@ For sound we have mixed a generic of a famous cartoon named Yakari, the rhythm v
 @todo : schéma de la maquette
 
 #### Connections
-![fritzing schéma](src/img/totem_panic_schema.jpg)
+![fritzing schéma](src/img/totem_panic_schema_completed.jpg)
 
 
 ### Programming
