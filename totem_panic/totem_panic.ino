@@ -1,5 +1,7 @@
 #include "Ultrasonic.h" // importer la bibliothèque
-Ultrasonic ultrasonic(2); // la broche "sig" du capteur est branchée sur "D2" de l'arduino
+
+#include <SoftwareSerial.h>
+#include <MP3Player_KT403A.h>
 
 #include <Servo.h>
 
@@ -16,26 +18,30 @@ Ultrasonic ultrasonic(2); // la broche "sig" du capteur est branchée sur "D2" d
 #define totem3PIN 6
 #define indianScorePIN 9
 
+SoftwareSerial mp3(12, 13);
+Ultrasonic ultrasonic(2); // la broche "sig" du capteur est branchée sur "D2" de l'arduino
+
+DFRobotVL53L0X sensor;
+
 Servo t1 ;
 Servo t2 ;
 Servo t3 ;
 Servo indianScore ;
-Servo totems[3] ;
 
 uint16_t ritualDuration = 120000 ;// 2min de jeu
 uint32_t startGame = 0 ;
-double inactive = 0 ;
+long inactive = 0 ;
 uint8_t inactiveDuration = 1000 ;
 boolean looseToConfirm = true ;
-double looseTimeToConfirm = 0 ;
+long looseTimeToConfirm = 0 ;
 
 // uint8_t score = 0 ;
 boolean isGaming = false ;
 
 // totem motors = tm
-double tm_storage = 0 ;
+long tm_storage = 0 ;
 uint16_t rotation_timestamp = 1000 ;
-double delayMotors = 0 ;
+long delayMotors = 0 ;
 boolean rotationDelay = false ;
 uint16_t tm_timestamp = 2000 ;
 boolean totemRotation = true ;
@@ -43,13 +49,17 @@ uint8_t tm_angle = 50 ;
 
 uint8_t maxUltrason = 43 ; // don't know why this value change sometimes between ~ 40 & 150
 
-DFRobotVL53L0X sensor;
+
 
 void setup() {
   Serial.begin(115200);
   pinMode(airPowerPIN, OUTPUT);
   pinMode(micro, INPUT);
   pinMode(hp, OUTPUT);
+  pinMode(totem1PIN, OUPUT);
+  pinMode(totem2PIN, OUPUT);
+  pinMode(totem3PIN, OUPUT);
+  pinMode(indianScorePIN, OUPUT);
   Wire.begin();
   sensor.begin(0x50);
   sensor.setMode(Continuous, High);
@@ -64,14 +74,20 @@ void setup() {
   t2.write(0);
   t3.write(0);
   indianScore.write(180);
+
+  mp3.begin(115200);
+  SelectPlayerDevice(0x02);       // Select SD card as the player device.
+  SetVolume(0x1E);   // Set the volume, the range is 0x00 to 0x1E.
+  
 }
 
 
 void loop() {
 
   if ( isGaming ) {
-    Serial.println(sensor.getDistance());
-    if ( (sensor.getDistance() > 299) && (millis() > startGame + 5000)) { // soul ball out : wait 10 sec after the game started to avoid wrong manipulations at the beginning
+    shufflePlay();
+    
+    if ( (sensor.getDistance() > 299) && (millis() > startGame + 3000)) { // soul ball out : wait 3 sec after the game started to avoid wrong manipulations at the beginning
       Serial.println("ball out ");
 
       // to avoid sensor fluctuations : be sure that ball is out by expecting 2 sec
@@ -80,7 +96,7 @@ void loop() {
         looseToConfirm = !looseToConfirm ;
       }
 
-      if (millis() > looseTimeToConfirm + 2000 ) { // is loose is recognized, so player is a looser ( bouhouhou )
+      if (millis() > looseTimeToConfirm + 100 ) { // is loose is recognized, so player is a looser ( bouhouhou )
         looseGame();
       }
 
@@ -168,14 +184,11 @@ void loop() {
 }
 
 void looseGame() {
+  analogWrite(airPowerPIN, 0);
   moveTotemMotors_right();
-  //score = 0 ;
   indianScore.write(180);
 
   Serial.println("You are such a looser ... be shamed");
-
-  analogWrite(airPowerPIN, 0);
-  looseToConfirm = false ;
   
   // wait for player remove his hand
   while (handInRange()){
@@ -183,20 +196,19 @@ void looseGame() {
   }
   
   isGaming = false ;
+  totemRotation = true ;
+  looseToConfirm = false ;
+  rotationDelay = false ;
   Serial.println("game reset");
 }
 
 void wonGame() {
-  moveTotemMotors_right();
-  //score = 0 ;
-  indianScore.write(180);
-
   analogWrite(airPowerPIN, 0);
+  moveTotemMotors_right();
+  indianScore.write(180);
 
   Serial.println("GAME WON !! ");
   Serial.println(" you are now the Great Black Hawk, the greatest Native Shaman on Earth");
-
-  soulIsInParadize();
 
   // wait for player remove his hand
   while (handInRange()){
@@ -204,6 +216,8 @@ void wonGame() {
   }
   
   isGaming = false ;
+  totemRotation = true ;
+  rotationDelay = false ;
   Serial.println("game reset");
 
 }
@@ -252,8 +266,7 @@ void moveTotemMotors_left() {
 }
 
 
-boolean isTimeToAct(double timeStorage, uint16_t timestamp) {
-  Serial.print("timestorage") ; Serial.println(timeStorage);
+boolean isTimeToAct(long timeStorage, uint16_t timestamp) {
   return (millis() > int(timeStorage + timestamp));
 }
 
