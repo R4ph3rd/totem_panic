@@ -19,6 +19,9 @@ Made by [Théo Geiller](theogeiller.com) and [Raphaël Perraud](raphaelperraud.c
 <img src="./src/img/totem_panic.gif" alt="totem panic gif">
 </div>
 
+## History
+Our concept evolved through different experiments and ideas, at the begin we want to create a game with a led band, we thought about many games like Guitar Hero, Fruit Ninja and a clicker battle Royal which is a trend on video games industry but we want to avoid led because it's to similar with a screen and we want design and conceive simple and natural interaction out of screen. We play with ventilation a lot and imagine a pong with the breath. Finally, we discovered this simply but satisfying interaction with the ventilation controlled by ultrasonic sensor. It's like the force in Star Wars or Wingardium Leviosa in Harry Potter. We go with this interaction and design a level for creating gameplay with this interaction.
+
 ## Gameplay
 Natives are processing a ritual in order that their departed will be able to go to the Nirvana, but the totem gone crazy! Will you achieve to help them and stay on air until the end of the ritual?
 According to the duration the player keeps the soul ball on air, and he will get a shaman rank, from "élan tranquille" to "aigle noir". 
@@ -48,7 +51,25 @@ This is the materiel required to build this game :
 
 ### How to build it ?
 #### Model
-@ theo 3D models, schéma de la maquette, impressions etc
+You need to print this 3d model with PLA 3d printer, object can be fixed to each other, you need wood or metal bar to fix the Servos in order to have the axis in front of mouths of the totem. Cables can pass through cardboard from the totem to into cardboard.
+
+Print the 2d assets in A3 paper. Fix all these assets on cardboard or feather cardboard. And cut to detach all assets into object. You can fix quickly and easily these object on the board. For the scores board fix the arm to a Servo axis and the Native and score object to the Servo.
+
+<div style="display:flex">
+<img src="./src/print/sheets1.png" alt="print sheet 1">
+<img src="./src/print/sheets2.png" alt="print sheet 2">
+</div>
+
+For the sand texture you can mix flour and warm water spread this in all board surface and apply the sand. Let dry 2 hours.
+
+<div >
+<img src="./src/img/top_view.jpg" alt="print sheet 1">
+</div>
+
+
+For sound we have mixed a generic of a famous cartoon named Yakari, the rhythm varies from slow to fast for a better immersion in the Indian universe and in the evolutive gameplay.
+
+@todo : schéma de la maquette
 
 #### Connections
 @to do : fritzi
