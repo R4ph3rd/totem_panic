@@ -16,7 +16,7 @@ You will find below instructions to reproduce this game.
 Made by [Théo Geiller](theogeiller.com) and [Raphaël Perraud](raphaelperraud.com)
 
 <div align="center">
-![totem panic gif](./src/img/totem_panic.gif)
+<img src="./src/img/totem_panic.gif" alt="totem panic gif">
 </div>
 
 ## Gameplay
