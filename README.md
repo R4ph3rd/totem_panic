@@ -55,15 +55,14 @@ You need to print this 3d model with PLA 3d printer, object can be fixed to each
 
 Print the 2d assets in A3 paper. Fix all these assets on cardboard or feather cardboard. And cut to detach all assets into object. You can fix quickly and easily these object on the board. For the scores board fix the arm to a Servo axis and the Native and score object to the Servo.
 
-<div style="display:grid; grid-template-columns: auto auto;">
-<img src="./src/print/sheets1.png" alt="print sheet 1">
-<img src="./src/print/sheets2.png" alt="print sheet 2">
+<div align="center">
+<img src="./src/print/sheets.jpg" alt="print sheet">
 </div>
 
 For the sand texture you can mix flour and warm water spread this in all board surface and apply the sand. Let dry 2 hours.
 
 <div >
-<img src="./src/img/top_view.jpg" alt="print sheet 1">
+<img src="./src/img/top_view.jpg" alt="top view">
 </div>
 
 
