@@ -9,7 +9,7 @@
 </div>
 
 ----
-# Introduction
+# Introduction {#introduction}
 Totem Panic is a game developed during an electronics class at L'École de design de Nantes Atlantique. It features a very simple but extendible gameplay, and delight try-hard lovers.
 You will find below instructions to reproduce this game.
 
