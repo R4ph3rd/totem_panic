@@ -19,7 +19,7 @@ Made by [Théo Geiller](theogeiller.com) and [Raphaël Perraud](raphaelperraud.c
 <img src="./src/img/totem_panic.gif" alt="totem panic gif">
 </div>
 
-## History (#History)
+## History
 Our concept evolved through different experiments and ideas, at the begin we want to create a game with a led band, we thought about many games like Guitar Hero, Fruit Ninja and a clicker battle Royal which is a trend on video games industry but we want to avoid led because it's to similar with a screen and we want design and conceive simple and natural interaction out of screen. We play with ventilation a lot and imagine a pong with the breath. Finally, we discovered this simply but satisfying interaction with the ventilation controlled by ultrasonic sensor. It's like the force in Star Wars or Wingardium Leviosa in Harry Potter. We go with this interaction and design a level for creating gameplay with this interaction.
 
 ## Gameplay
@@ -322,7 +322,3 @@ For further informations, please contact us :
 [t.geiller@lecolededesign.com](t.geiller@lecolededesign.com)
 
 [history back](#History)
-
-<div class="video_container">
-<iframe src="https://player.vimeo.com/video/391677442" width="640" height="360" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
-</div>
