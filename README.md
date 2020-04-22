@@ -8,6 +8,14 @@
 <br>
 </div>
 
+<div class="video_container">
+  <iframe src="https://www.youtube.com/embed/MnPmntuMb7s" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+  
+  <div class="video_container">
+  <iframe src="https://player.vimeo.com/video/391677442"  frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+  </div>
+
 ----
 # Introduction
 Totem Panic is a game developed during an electronics class at L'École de design de Nantes Atlantique. It features a very simple but extendible gameplay, and delight try-hard lovers.
